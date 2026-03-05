@@ -3,7 +3,7 @@ set -euo pipefail
 
 PROJECT_DIR="$(cd "$(dirname "$0")" && pwd)"
 BACKEND_DIR="$PROJECT_DIR/backend"
-FRONTEND_DIR="$PROJECT_DIR/frontend"
+FRONTEND_DIR="$PROJECT_DIR/public"
 RUN_DIR="$PROJECT_DIR/.run"
 BACKEND_PORT=8000
 FRONTEND_PORT=8080

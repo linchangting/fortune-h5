@@ -15,9 +15,11 @@ from .config import get_settings
 
 try:
     from openai import OpenAI
+    import httpx
     HAS_OPENAI = True
 except ImportError:
     HAS_OPENAI = False
+    httpx = None
 
 logger = logging.getLogger("fortune.llm")
 
@@ -156,7 +158,12 @@ def _client() -> Optional[Any]:
     cfg = get_settings()
     if not cfg.api_key:
         return None
-    return OpenAI(api_key=cfg.api_key, base_url=cfg.base_url or None)
+    return OpenAI(
+        api_key=cfg.api_key,
+        base_url=cfg.base_url or None,
+        timeout=httpx.Timeout(60.0, connect=30.0) if httpx else 60.0,
+        max_retries=3,
+    )
 
 
 # ── 对话式交互（核心新功能）──────────────────────────────
