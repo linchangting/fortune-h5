@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="theme-color" content="#FFF8F0" />
+  <title>今日运势</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="icon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/app.css" />
+</head>
+<body>
+  <div id="app">
+
+    <!-- ====== 首页 ====== -->
+    <section id="screen-home" class="screen active">
+      <header class="nav-bar"><span class="nav-title">今日运势</span></header>
+      <div class="page-content">
+        <div class="hero">
+          <h1>知命<span>顺运</span></h1>
+          <p class="subtitle">输入生辰八字，结合今日黄历，AI 为你解读每日运势</p>
+        </div>
+        <button type="button" class="btn-primary" id="btn-start">开始算命</button>
+        <div class="section" style="margin-top:36px;">
+          <p class="section-label">最近记录</p>
+          <div id="history-list"></div>
+          <div class="history-more-wrap" id="history-more" style="display:none;">
+            <button type="button" class="btn-history-more" data-goto="history">查看全部历史 ›</button>
+          </div>
+        </div>
+        <p class="footer-note">本工具仅供娱乐参考，不构成任何决策建议</p>
+      </div>
+    </section>
+
+    <!-- ====== 免责弹窗 ====== -->
+    <div id="overlay-disclaimer" class="overlay">
+      <div class="modal">
+        <h2>使用须知</h2>
+        <p class="modal-body">本工具基于传统命理学规则进行运势推算，仅供娱乐参考，不构成任何人生、投资或医疗决策建议。使用即表示您已知悉并同意以上声明。</p>
+        <label class="checkbox-row">
+          <input type="checkbox" id="disclaimer-check" />
+          <span>我已阅读并同意上述声明</span>
+        </label>
+        <button type="button" class="btn-primary" id="btn-disclaimer-ok" disabled>同意并继续</button>
+      </div>
+    </div>
+
+    <!-- ====== 输入页 ====== -->
+    <section id="screen-input" class="screen">
+      <header class="nav-bar">
+        <span class="nav-back" data-goto="home">&#8249;</span>
+        <span class="nav-title">输入生辰</span>
+      </header>
+      <div class="page-content">
+        <!-- 日历类型 -->
+        <div class="input-section">
+          <p class="section-label">日历类型</p>
+          <div class="calendar-switch" id="calendar-switch">
+            <button type="button" class="active" data-type="solar">阳历</button>
+            <button type="button" data-type="lunar">农历</button>
+          </div>
+        </div>
+
+        <!-- 出生日期 -->
+        <div class="input-section">
+          <p class="section-label">出生日期</p>
+          <div class="date-input-wrap" id="solar-date-wrap">
+            <label>阳历日期</label>
+            <input type="date" id="solar-date" value="1990-01-01" />
+          </div>
+          <div class="date-input-wrap" id="lunar-date-wrap" style="display:none;">
+            <label>农历日期</label>
+            <div class="lunar-picker-trigger" id="lunar-trigger">
+              <span class="placeholder" id="lunar-display">请选择农历日期</span>
+              <span class="arrow">&#8250;</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 出生时辰 -->
+        <div class="input-section">
+          <p class="section-label">出生时辰</p>
+          <div class="shichen-grid" id="shichen-grid">
+            <button type="button" class="shichen-btn" data-hour="23"><span class="zhi">子</span><span class="range">23-01</span></button>
+            <button type="button" class="shichen-btn" data-hour="1"><span class="zhi">丑</span><span class="range">01-03</span></button>
+            <button type="button" class="shichen-btn" data-hour="3"><span class="zhi">寅</span><span class="range">03-05</span></button>
+            <button type="button" class="shichen-btn" data-hour="5"><span class="zhi">卯</span><span class="range">05-07</span></button>
+            <button type="button" class="shichen-btn" data-hour="7"><span class="zhi">辰</span><span class="range">07-09</span></button>
+            <button type="button" class="shichen-btn" data-hour="9"><span class="zhi">巳</span><span class="range">09-11</span></button>
+            <button type="button" class="shichen-btn" data-hour="11"><span class="zhi">午</span><span class="range">11-13</span></button>
+            <button type="button" class="shichen-btn" data-hour="13"><span class="zhi">未</span><span class="range">13-15</span></button>
+            <button type="button" class="shichen-btn" data-hour="15"><span class="zhi">申</span><span class="range">15-17</span></button>
+            <button type="button" class="shichen-btn" data-hour="17"><span class="zhi">酉</span><span class="range">17-19</span></button>
+            <button type="button" class="shichen-btn" data-hour="19"><span class="zhi">戌</span><span class="range">19-21</span></button>
+            <button type="button" class="shichen-btn" data-hour="21"><span class="zhi">亥</span><span class="range">21-23</span></button>
+          </div>
+        </div>
+
+        <!-- 性别 -->
+        <div class="input-section">
+          <p class="section-label">性别</p>
+          <div class="gender-picker" id="gender-picker">
+            <button type="button" class="gender-btn" data-gender="male">&#9794; 男</button>
+            <button type="button" class="gender-btn" data-gender="female">&#9792; 女</button>
+          </div>
+        </div>
+
+        <button type="button" class="btn-primary" id="btn-submit" disabled>开始推算</button>
+        <button type="button" class="btn-secondary" data-goto="home">取消</button>
+      </div>
+    </section>
+
+    <!-- ====== 加载页 ====== -->
+    <section id="screen-loading" class="screen">
+      <header class="nav-bar"><span class="nav-title">推算中</span></header>
+      <div class="loading-wrap">
+        <div class="taiji"></div>
+        <p class="loading-text" id="loading-text">正在排盘推算…</p>
+        <p class="loading-sub" id="loading-sub">预计需要 5-15 秒</p>
+        <div class="loading-steps" id="loading-steps">
+          <div class="step active" data-step="paipan">排列四柱</div>
+          <div class="step" data-step="wuxing">推算五行</div>
+          <div class="step" data-step="fortune">分析运势</div>
+          <div class="step" data-step="reading">生成解读</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== 结果页 ====== -->
+    <section id="screen-result" class="screen">
+      <header class="nav-bar">
+        <span class="nav-back" data-goto="home">&#8249;</span>
+        <span class="nav-title">今日运势</span>
+      </header>
+      <div class="page-content stagger">
+        <!-- 八字卡片 -->
+        <p class="section-label">八字排盘</p>
+        <div class="bazi-card" id="bazi-card"></div>
+
+        <!-- 五行分布 -->
+        <p class="section-label">五行分布</p>
+        <div class="wuxing-chart" id="wuxing-chart"></div>
+
+        <!-- 综合运势 -->
+        <div class="score-hero" id="score-hero"></div>
+
+        <!-- 分项运势 -->
+        <p class="section-label">分项运势</p>
+        <div class="fortune-grid" id="fortune-grid"></div>
+
+        <!-- 幸运提示 -->
+        <p class="section-label">幸运提示</p>
+        <div class="lucky-row" id="lucky-row"></div>
+
+        <!-- 黄历 -->
+        <p class="section-label">黄历速览</p>
+        <div class="almanac-row" id="almanac-row"></div>
+
+        <!-- 注意事项 -->
+        <div class="cautions-card" id="cautions-card"></div>
+
+        <!-- 操作按钮 -->
+        <div class="entry-row" id="btn-yearly">
+          <span class="e-label">查看本年运势</span>
+          <span class="e-arrow">&#8250;</span>
+        </div>
+        <div class="entry-row" id="btn-dayun">
+          <span class="e-label">查看大运流年</span>
+          <span class="e-arrow">&#8250;</span>
+        </div>
+        <button type="button" class="btn-gold" id="btn-poster">生成运势海报</button>
+
+        <p class="footer-note">仅供娱乐参考，不构成任何决策建议</p>
+      </div>
+    </section>
+
+    <!-- ====== 大运流年页 ====== -->
+    <section id="screen-dayun" class="screen">
+      <header class="nav-bar">
+        <span class="nav-back" data-goto="result">&#8249;</span>
+        <span class="nav-title">大运流年</span>
+      </header>
+      <div class="page-content">
+        <p class="section-label" id="dayun-info"></p>
+        <div class="dayun-timeline" id="dayun-timeline"></div>
+        <p class="footer-note">仅供娱乐参考</p>
+      </div>
+    </section>
+
+    <!-- ====== 本年运势页 ====== -->
+    <section id="screen-yearly" class="screen">
+      <header class="nav-bar">
+        <span class="nav-back" data-goto="result">&#8249;</span>
+        <span class="nav-title">本年运势</span>
+      </header>
+      <div class="page-content stagger">
+        <!-- 年度概览 -->
+        <div class="yearly-header" id="yearly-header"></div>
+
+        <!-- 犯太岁提示 -->
+        <div class="taisui-card" id="taisui-card" style="display:none;"></div>
+
+        <!-- 年度综合评分 -->
+        <div class="score-hero" id="yearly-score-hero"></div>
+
+        <!-- 年度关键词 -->
+        <div class="yearly-keywords" id="yearly-keywords"></div>
+
+        <!-- 年度分项运势 -->
+        <p class="section-label">年度分项运势</p>
+        <div class="fortune-grid" id="yearly-fortune-grid"></div>
+
+        <!-- 年度注意事项 -->
+        <div class="cautions-card" id="yearly-cautions-card"></div>
+
+        <!-- 月运概览 -->
+        <p class="section-label">十二月运势概览</p>
+        <div class="monthly-chart" id="monthly-chart"></div>
+
+        <p class="footer-note">仅供娱乐参考，不构成任何决策建议</p>
+      </div>
+    </section>
+
+    <!-- ====== 历史记录页 ====== -->
+    <section id="screen-history" class="screen">
+      <header class="nav-bar">
+        <span class="nav-back" data-goto="home">&#8249;</span>
+        <span class="nav-title">历史记录</span>
+      </header>
+      <div class="page-content">
+        <div id="history-full-list"></div>
+        <p class="footer-note">最近 30 天记录</p>
+      </div>
+    </section>
+
+    <!-- ====== 农历选择器 ====== -->
+    <div id="picker-overlay" class="overlay" style="align-items:flex-end;"></div>
+    <div id="lunar-picker" class="picker-sheet">
+      <div class="picker-header">
+        <span class="picker-cancel" id="picker-cancel">取消</span>
+        <span class="picker-title">选择农历日期</span>
+        <span class="picker-confirm" id="picker-confirm">确定</span>
+      </div>
+      <div class="picker-columns">
+        <div class="picker-highlight"></div>
+        <div class="picker-column" id="picker-year"><div class="picker-scroller"></div></div>
+        <div class="picker-column" id="picker-month"><div class="picker-scroller"></div></div>
+        <div class="picker-column" id="picker-day"><div class="picker-scroller"></div></div>
+      </div>
+    </div>
+
+    <!-- ====== 海报弹窗 ====== -->
+    <div id="overlay-poster" class="overlay">
+      <div class="modal" style="max-width:380px;">
+        <h2>运势海报</h2>
+        <div class="poster-wrap">
+          <canvas id="poster-canvas" class="poster-canvas"></canvas>
+        </div>
+        <button type="button" class="btn-primary" id="btn-save-poster" style="margin-top:16px;">保存图片</button>
+        <button type="button" class="btn-secondary" id="btn-close-poster">关闭</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/utils.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/calendar.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/poster.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

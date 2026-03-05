@@ -1,0 +1,18 @@
+{
+  "name": "今日运势",
+  "short_name": "运势",
+  "description": "八字算命 · 每日运势解读",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFF8F0",
+  "theme_color": "#C41E3A",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
