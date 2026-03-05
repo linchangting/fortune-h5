@@ -24,6 +24,17 @@ class DailyRequest(BaseModel):
     target_date: Optional[str] = Field(None, description="目标日期(默认今天)")
 
 
+class ChatMessage(BaseModel):
+    role: str = Field(..., description="user / assistant / system")
+    content: str = Field(..., description="消息内容")
+
+
+class ChatRequest(BaseModel):
+    messages: List[ChatMessage] = Field(..., description="对话历史")
+    birth_info: Optional[Dict] = Field(None, description="已提取的出生信息")
+    fortune_data: Optional[Dict] = Field(None, description="已有的命盘数据")
+
+
 # ── 响应子模型 ────────────────────────────────────────
 
 class Pillar(BaseModel):

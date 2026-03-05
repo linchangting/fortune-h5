@@ -6,32 +6,63 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="theme-color" content="#FFF8F0" />
-  <title>今日运势</title>
+  <title>知命先生 · 命理解读</title>
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" href="icon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="icon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/app.css" />
 </head>
 <body>
   <div id="app">
 
+    <!-- ====== 底部 Tab 栏 ====== -->
+    <nav class="tab-bar" id="tab-bar">
+      <div class="tab active" data-tab="home">
+        <svg class="tab-svg" viewBox="0 0 24 24" width="22" height="22"><path d="M12 2L3 9v11a2 2 0 002 2h4v-7h6v7h4a2 2 0 002-2V9L12 2z" fill="currentColor"/></svg>
+        <span class="tab-label">算命</span>
+      </div>
+      <div class="tab" data-tab="woodfish">
+        <svg class="tab-svg" viewBox="0 0 24 24" width="22" height="22"><ellipse cx="12" cy="13" rx="9" ry="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8 13Q12 9 16 13" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="10" cy="12" r="1.2" fill="currentColor"/><circle cx="14" cy="12" r="1.2" fill="currentColor"/><path d="M10 6Q12 3 14 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <span class="tab-label">木鱼</span>
+      </div>
+      <div class="tab" data-tab="history">
+        <svg class="tab-svg" viewBox="0 0 24 24" width="22" height="22"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3 3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span class="tab-label">记录</span>
+      </div>
+    </nav>
+
     <!-- ====== 首页 ====== -->
     <section id="screen-home" class="screen active">
-      <header class="nav-bar"><span class="nav-title">今日运势</span></header>
-      <div class="page-content">
+      <div class="page-content home-content">
         <div class="hero">
-          <h1>知命<span>顺运</span></h1>
-          <p class="subtitle">输入生辰八字，结合今日黄历，AI 为你解读每日运势</p>
+          <div class="hero-seal">命</div>
+          <h1>知命<span class="accent">先生</span></h1>
+          <p class="hero-sub">融合五大经典 · 多专家协作分析</p>
+          <p class="hero-desc">精通《子平真诠》《穷通宝鉴》《滴天髓》，以多视角为您深度解读命盘</p>
         </div>
-        <button type="button" class="btn-primary" id="btn-start">开始算命</button>
-        <div class="section" style="margin-top:36px;">
-          <p class="section-label">最近记录</p>
-          <div id="history-list"></div>
-          <div class="history-more-wrap" id="history-more" style="display:none;">
-            <button type="button" class="btn-history-more" data-goto="history">查看全部历史 ›</button>
-          </div>
+        <div class="home-actions">
+          <button type="button" class="btn-hero" id="btn-chat">
+            <span class="btn-icon-char">问</span>
+            <span class="btn-text">
+              <strong>对话算命</strong>
+              <small>与命理师自然对话</small>
+            </span>
+          </button>
+          <button type="button" class="btn-hero btn-hero-alt" id="btn-form">
+            <span class="btn-icon-char">排</span>
+            <span class="btn-text">
+              <strong>快速排盘</strong>
+              <small>表单输入，直出结果</small>
+            </span>
+          </button>
+        </div>
+        <div class="home-features">
+          <div class="feat"><span class="feat-char">格</span><p>四大流派<br/>融合分析</p></div>
+          <div class="feat"><span class="feat-char">典</span><p>经典原文<br/>有据可查</p></div>
+          <div class="feat"><span class="feat-char">渐</span><p>渐进披露<br/>由浅入深</p></div>
+          <div class="feat"><span class="feat-char">暖</span><p>情感陪伴<br/>温暖专业</p></div>
         </div>
         <p class="footer-note">本工具仅供娱乐参考，不构成任何决策建议</p>
       </div>
@@ -41,7 +72,7 @@
     <div id="overlay-disclaimer" class="overlay">
       <div class="modal">
         <h2>使用须知</h2>
-        <p class="modal-body">本工具基于传统命理学规则进行运势推算，仅供娱乐参考，不构成任何人生、投资或医疗决策建议。使用即表示您已知悉并同意以上声明。</p>
+        <p class="modal-body">本工具基于传统命理学规则与 AI 技术进行运势推算，融合《子平真诠》《穷通宝鉴》等经典理论，仅供娱乐参考，不构成任何人生、投资或医疗决策建议。</p>
         <label class="checkbox-row">
           <input type="checkbox" id="disclaimer-check" />
           <span>我已阅读并同意上述声明</span>
@@ -50,14 +81,34 @@
       </div>
     </div>
 
+    <!-- ====== 对话页 ====== -->
+    <section id="screen-chat" class="screen">
+      <header class="nav-bar">
+        <span class="nav-back" data-goto="home">‹</span>
+        <span class="nav-title">知命先生</span>
+        <span class="nav-action" id="btn-new-chat" title="新对话">⟳</span>
+      </header>
+      <div class="chat-container" id="chat-container">
+        <div class="chat-messages" id="chat-messages"></div>
+      </div>
+      <div class="chat-input-bar" id="chat-input-bar">
+        <div class="chat-input-wrap">
+          <textarea id="chat-input" placeholder="输入您的问题..." rows="1"></textarea>
+          <button type="button" class="chat-send-btn" id="chat-send" disabled>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M22 2L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+        <p class="chat-disclaimer">解读仅供娱乐参考，不构成决策建议</p>
+      </div>
+    </section>
+
     <!-- ====== 输入页 ====== -->
     <section id="screen-input" class="screen">
       <header class="nav-bar">
-        <span class="nav-back" data-goto="home">&#8249;</span>
+        <span class="nav-back" data-goto="home">‹</span>
         <span class="nav-title">输入生辰</span>
       </header>
       <div class="page-content">
-        <!-- 日历类型 -->
         <div class="input-section">
           <p class="section-label">日历类型</p>
           <div class="calendar-switch" id="calendar-switch">
@@ -65,8 +116,6 @@
             <button type="button" data-type="lunar">农历</button>
           </div>
         </div>
-
-        <!-- 出生日期 -->
         <div class="input-section">
           <p class="section-label">出生日期</p>
           <div class="date-input-wrap" id="solar-date-wrap">
@@ -77,12 +126,10 @@
             <label>农历日期</label>
             <div class="lunar-picker-trigger" id="lunar-trigger">
               <span class="placeholder" id="lunar-display">请选择农历日期</span>
-              <span class="arrow">&#8250;</span>
+              <span class="arrow">›</span>
             </div>
           </div>
         </div>
-
-        <!-- 出生时辰 -->
         <div class="input-section">
           <p class="section-label">出生时辰</p>
           <div class="shichen-grid" id="shichen-grid">
@@ -100,8 +147,6 @@
             <button type="button" class="shichen-btn" data-hour="21"><span class="zhi">亥</span><span class="range">21-23</span></button>
           </div>
         </div>
-
-        <!-- 性别 -->
         <div class="input-section">
           <p class="section-label">性别</p>
           <div class="gender-picker" id="gender-picker">
@@ -109,7 +154,6 @@
             <button type="button" class="gender-btn" data-gender="female">&#9792; 女</button>
           </div>
         </div>
-
         <button type="button" class="btn-primary" id="btn-submit" disabled>开始推算</button>
         <button type="button" class="btn-secondary" data-goto="home">取消</button>
       </div>
@@ -121,11 +165,11 @@
       <div class="loading-wrap">
         <div class="taiji"></div>
         <p class="loading-text" id="loading-text">正在排盘推算…</p>
-        <p class="loading-sub" id="loading-sub">预计需要 5-15 秒</p>
+        <p class="loading-sub" id="loading-sub">多专家协作分析中</p>
         <div class="loading-steps" id="loading-steps">
           <div class="step active" data-step="paipan">排列四柱</div>
           <div class="step" data-step="wuxing">推算五行</div>
-          <div class="step" data-step="fortune">分析运势</div>
+          <div class="step" data-step="fortune">多专家分析</div>
           <div class="step" data-step="reading">生成解读</div>
         </div>
       </div>
@@ -134,55 +178,104 @@
     <!-- ====== 结果页 ====== -->
     <section id="screen-result" class="screen">
       <header class="nav-bar">
-        <span class="nav-back" data-goto="home">&#8249;</span>
+        <span class="nav-back" data-goto="home">‹</span>
         <span class="nav-title">今日运势</span>
       </header>
       <div class="page-content stagger">
-        <!-- 八字卡片 -->
         <p class="section-label">八字排盘</p>
         <div class="bazi-card" id="bazi-card"></div>
-
-        <!-- 五行分布 -->
         <p class="section-label">五行分布</p>
         <div class="wuxing-chart" id="wuxing-chart"></div>
-
-        <!-- 综合运势 -->
         <div class="score-hero" id="score-hero"></div>
-
-        <!-- 分项运势 -->
         <p class="section-label">分项运势</p>
         <div class="fortune-grid" id="fortune-grid"></div>
-
-        <!-- 幸运提示 -->
         <p class="section-label">幸运提示</p>
         <div class="lucky-row" id="lucky-row"></div>
-
-        <!-- 黄历 -->
         <p class="section-label">黄历速览</p>
         <div class="almanac-row" id="almanac-row"></div>
-
-        <!-- 注意事项 -->
         <div class="cautions-card" id="cautions-card"></div>
 
-        <!-- 操作按钮 -->
-        <div class="entry-row" id="btn-yearly">
-          <span class="e-label">查看本年运势</span>
-          <span class="e-arrow">&#8250;</span>
+        <div class="result-actions">
+          <div class="entry-row" id="btn-deep-analysis">
+            <span class="e-label">深度解读</span>
+            <span class="e-arrow">›</span>
+          </div>
+          <div class="entry-row" id="btn-yearly">
+            <span class="e-label">查看本年运势</span>
+            <span class="e-arrow">›</span>
+          </div>
+          <div class="entry-row" id="btn-dayun">
+            <span class="e-label">查看大运流年</span>
+            <span class="e-arrow">›</span>
+          </div>
+          <div class="entry-row" id="btn-ask-ai">
+            <span class="e-label">向命理师提问</span>
+            <span class="e-arrow">›</span>
+          </div>
+          <button type="button" class="btn-gold" id="btn-poster">生成运势海报</button>
         </div>
-        <div class="entry-row" id="btn-dayun">
-          <span class="e-label">查看大运流年</span>
-          <span class="e-arrow">&#8250;</span>
-        </div>
-        <button type="button" class="btn-gold" id="btn-poster">生成运势海报</button>
-
         <p class="footer-note">仅供娱乐参考，不构成任何决策建议</p>
+      </div>
+    </section>
+
+    <!-- ====== 深度分析页 ====== -->
+    <section id="screen-deep" class="screen">
+      <header class="nav-bar">
+        <span class="nav-back" data-goto="result">‹</span>
+        <span class="nav-title">深度解读</span>
+      </header>
+      <div class="page-content">
+        <div class="deep-header">
+          <div class="deep-badge">四大专家协作分析</div>
+          <p class="deep-desc">格局专家 · 调候专家 · 象法专家 · 心理咨询师</p>
+        </div>
+        <div class="deep-content" id="deep-content">
+          <div class="deep-loading">
+            <div class="typing-indicator"><span></span><span></span><span></span></div>
+            <p>多专家协作分析中…</p>
+          </div>
+        </div>
+        <p class="footer-note">仅供娱乐参考</p>
+      </div>
+    </section>
+
+    <!-- ====== 木鱼页 ====== -->
+    <section id="screen-woodfish" class="screen">
+      <div class="page-content woodfish-page">
+        <div class="wf-merit-display">
+          <span class="wf-merit-label">功德</span>
+          <span class="wf-merit-num" id="wf-merit">0</span>
+        </div>
+        <div class="wf-area">
+          <div class="wf-ripple" id="wf-ripple"></div>
+          <button type="button" class="wf-btn" id="wf-btn">
+            <svg viewBox="0 0 200 200" width="160" height="160">
+              <defs>
+                <radialGradient id="wfg" cx="45%" cy="40%"><stop offset="0%" stop-color="#D4A84B"/><stop offset="100%" stop-color="#8B6914"/></radialGradient>
+              </defs>
+              <ellipse cx="100" cy="110" rx="72" ry="60" fill="url(#wfg)" stroke="#6B4C1A" stroke-width="2"/>
+              <ellipse cx="100" cy="110" rx="58" ry="48" fill="none" stroke="#B8922F" stroke-width="1" opacity=".4"/>
+              <path d="M70 110 Q100 90 130 110" fill="none" stroke="#6B4C1A" stroke-width="3" stroke-linecap="round"/>
+              <circle cx="85" cy="105" r="4" fill="#6B4C1A" opacity=".6"/>
+              <circle cx="115" cy="105" r="4" fill="#6B4C1A" opacity=".6"/>
+              <path d="M88 60 Q100 40 112 60" fill="none" stroke="#B8922F" stroke-width="2.5" stroke-linecap="round"/>
+              <circle cx="100" cy="42" r="6" fill="#D4A84B" stroke="#8B6914" stroke-width="1.5"/>
+            </svg>
+          </button>
+          <div class="wf-float-container" id="wf-floats"></div>
+        </div>
+        <div class="wf-stats">
+          <div class="wf-stat"><span class="wf-stat-num" id="wf-today">0</span><span class="wf-stat-label">今日</span></div>
+          <div class="wf-stat"><span class="wf-stat-num" id="wf-total">0</span><span class="wf-stat-label">累计</span></div>
+        </div>
+        <p class="wf-hint">轻触木鱼，静心积德</p>
       </div>
     </section>
 
     <!-- ====== 大运流年页 ====== -->
     <section id="screen-dayun" class="screen">
       <header class="nav-bar">
-        <span class="nav-back" data-goto="result">&#8249;</span>
+        <span class="nav-back" data-goto="result">‹</span>
         <span class="nav-title">大运流年</span>
       </header>
       <div class="page-content">
@@ -195,44 +288,27 @@
     <!-- ====== 本年运势页 ====== -->
     <section id="screen-yearly" class="screen">
       <header class="nav-bar">
-        <span class="nav-back" data-goto="result">&#8249;</span>
+        <span class="nav-back" data-goto="result">‹</span>
         <span class="nav-title">本年运势</span>
       </header>
       <div class="page-content stagger">
-        <!-- 年度概览 -->
         <div class="yearly-header" id="yearly-header"></div>
-
-        <!-- 犯太岁提示 -->
         <div class="taisui-card" id="taisui-card" style="display:none;"></div>
-
-        <!-- 年度综合评分 -->
         <div class="score-hero" id="yearly-score-hero"></div>
-
-        <!-- 年度关键词 -->
         <div class="yearly-keywords" id="yearly-keywords"></div>
-
-        <!-- 年度分项运势 -->
         <p class="section-label">年度分项运势</p>
         <div class="fortune-grid" id="yearly-fortune-grid"></div>
-
-        <!-- 年度注意事项 -->
         <div class="cautions-card" id="yearly-cautions-card"></div>
-
-        <!-- 月运概览 -->
         <p class="section-label">十二月运势概览</p>
         <div class="monthly-chart" id="monthly-chart"></div>
-
-        <p class="footer-note">仅供娱乐参考，不构成任何决策建议</p>
+        <p class="footer-note">仅供娱乐参考</p>
       </div>
     </section>
 
     <!-- ====== 历史记录页 ====== -->
     <section id="screen-history" class="screen">
-      <header class="nav-bar">
-        <span class="nav-back" data-goto="home">&#8249;</span>
-        <span class="nav-title">历史记录</span>
-      </header>
-      <div class="page-content">
+      <div class="page-content" style="padding-top:16px;">
+        <p class="section-label">最近记录</p>
         <div id="history-full-list"></div>
         <p class="footer-note">最近 30 天记录</p>
       </div>
@@ -271,6 +347,8 @@
   <script src="js/api.js"></script>
   <script src="js/calendar.js"></script>
   <script src="js/ui.js"></script>
+  <script src="js/chat.js"></script>
+  <script src="js/woodfish.js"></script>
   <script src="js/poster.js"></script>
   <script src="js/app.js"></script>
 </body>

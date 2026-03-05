@@ -1,11 +1,11 @@
 {
-  "name": "今日运势",
-  "short_name": "运势",
-  "description": "八字算命 · 每日运势解读",
+  "name": "知命先生 · 命理解读",
+  "short_name": "知命先生",
+  "description": "多专家协作命理分析 · 对话式算命",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#FFF8F0",
-  "theme_color": "#C41E3A",
+  "theme_color": "#FFF8F0",
   "orientation": "portrait",
   "icons": [
     {

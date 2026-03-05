@@ -117,10 +117,10 @@ var FortuneUI = (function () {
     if (!el) return;
     var scores = daily.scores || {};
     var items = [
-      { name: '事业运', key: 'career', icon: '💼' },
-      { name: '财运', key: 'wealth', icon: '💰' },
-      { name: '感情运', key: 'love', icon: '❤️' },
-      { name: '健康运', key: 'health', icon: '🏃' },
+      { name: '事业运', key: 'career', icon: '业' },
+      { name: '财运', key: 'wealth', icon: '财' },
+      { name: '感情运', key: 'love', icon: '缘' },
+      { name: '健康运', key: 'health', icon: '体' },
     ];
     var html = '';
     items.forEach(function (item) {
@@ -259,7 +259,7 @@ var FortuneUI = (function () {
     }).join('');
 
     el.innerHTML =
-      '<div class="ts-title">⚠ 犯太岁提醒</div>' +
+      '<div class="ts-title">犯太岁提醒</div>' +
       '<div>' + typesHtml + '</div>' +
       descsHtml;
   }
@@ -296,10 +296,10 @@ var FortuneUI = (function () {
     if (!el) return;
     var scores = yearly.scores || {};
     var items = [
-      { name: '事业运', key: 'career', readingKey: 'yearly_career', icon: '💼' },
-      { name: '财运', key: 'wealth', readingKey: 'yearly_wealth', icon: '💰' },
-      { name: '感情运', key: 'love', readingKey: 'yearly_love', icon: '❤️' },
-      { name: '健康运', key: 'health', readingKey: 'yearly_health', icon: '🏃' },
+      { name: '事业运', key: 'career', readingKey: 'yearly_career', icon: '业' },
+      { name: '财运', key: 'wealth', readingKey: 'yearly_wealth', icon: '财' },
+      { name: '感情运', key: 'love', readingKey: 'yearly_love', icon: '缘' },
+      { name: '健康运', key: 'health', readingKey: 'yearly_health', icon: '体' },
     ];
     var html = '';
     items.forEach(function (item) {
@@ -332,7 +332,7 @@ var FortuneUI = (function () {
     var advice = yr.yearly_advice || '';
     if (advice) {
       html += '<div class="cc-item" style="margin-top:8px;font-weight:500;color:var(--gold-dark);">' +
-        '💡 ' + advice + '</div>';
+        advice + '</div>';
     }
     el.innerHTML = html;
   }
