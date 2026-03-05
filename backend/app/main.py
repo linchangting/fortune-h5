@@ -42,6 +42,38 @@ async def health():
     return {"status": "ok", "has_api_key": bool(cfg.api_key), "version": "2.0.0"}
 
 
+@app.get("/api/debug-llm")
+async def debug_llm():
+    """诊断 LLM 连接"""
+    import socket
+    import os
+    result = {
+        "api_key_prefix": cfg.api_key[:8] + "..." if cfg.api_key else "EMPTY",
+        "base_url": cfg.base_url,
+        "model": cfg.LLM_MODEL,
+    }
+    try:
+        addr = socket.getaddrinfo("dashscope.aliyuncs.com", 443)
+        result["dns"] = "ok: " + str(addr[0][4][0])
+    except Exception as e:
+        result["dns"] = f"FAIL: {e}"
+
+    try:
+        import httpx
+        r = httpx.post(
+            f"{cfg.base_url}/chat/completions",
+            headers={"Authorization": f"Bearer {cfg.api_key}", "Content-Type": "application/json"},
+            json={"model": cfg.LLM_MODEL, "messages": [{"role": "user", "content": "hi"}], "max_tokens": 5},
+            timeout=30.0,
+        )
+        result["llm_status"] = r.status_code
+        result["llm_body"] = r.text[:300]
+    except Exception as e:
+        result["llm_error"] = f"{type(e).__name__}: {e}"
+
+    return result
+
+
 # ── 对话式交互（核心新功能）────────────────────────────
 
 @app.post("/api/chat")
