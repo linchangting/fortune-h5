@@ -161,8 +161,8 @@ def _client() -> Optional[Any]:
     return OpenAI(
         api_key=cfg.api_key,
         base_url=cfg.base_url or None,
-        timeout=httpx.Timeout(60.0, connect=30.0) if httpx else 60.0,
-        max_retries=3,
+        timeout=httpx.Timeout(45.0, connect=10.0) if httpx else 45.0,
+        max_retries=2,
     )
 
 
