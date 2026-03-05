@@ -1,9 +1,9 @@
 {
   "version": 2,
+  "regions": ["hkg1"],
   "functions": {
     "api/index.py": {
-      "maxDuration": 60,
-      "memory": 512
+      "maxDuration": 60
     }
   },
   "rewrites": [
