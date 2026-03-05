@@ -9,9 +9,9 @@ load_dotenv()
 
 
 class Settings:
-    DASHSCOPE_API_KEY: str = os.getenv("DASHSCOPE_API_KEY", "")
-    OPENAI_API_KEY: str = os.getenv("OPENAI_API_KEY", "")
-    OPENAI_BASE_URL: str = os.getenv("OPENAI_BASE_URL", "")
+    DASHSCOPE_API_KEY: str = os.getenv("DASHSCOPE_API_KEY", "").strip()
+    OPENAI_API_KEY: str = os.getenv("OPENAI_API_KEY", "").strip()
+    OPENAI_BASE_URL: str = os.getenv("OPENAI_BASE_URL", "").strip()
 
     DASHSCOPE_BASE: str = "https://dashscope.aliyuncs.com/compatible-mode/v1"
 
